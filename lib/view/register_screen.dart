@@ -37,6 +37,7 @@ class _RegisterState extends State<Register> {
       endereco: enderecoController.text,
       genero: genero,
     ));
+
   }
 
   @override

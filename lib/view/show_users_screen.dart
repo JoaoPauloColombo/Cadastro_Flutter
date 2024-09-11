@@ -1,4 +1,5 @@
 import 'package:cadastro_flutter/models/user_model.dart';
+import 'package:cadastro_flutter/view/register_screen.dart';
 import 'package:flutter/material.dart';
 
 class ShowUsersScreen extends StatelessWidget {
@@ -8,6 +9,15 @@ class ShowUsersScreen extends StatelessWidget {
   });
 
   final List<UserModel> users;
+
+  // Função que retorna a imagem baseada no gênero do usuário
+  AssetImage imagemUsuario(String genero) {
+    if (genero == 'Masculino') {
+      return const AssetImage('./assets/images/man.png');
+    } else {
+      return const AssetImage('./assets/images/woman.png');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +32,7 @@ class ShowUsersScreen extends StatelessWidget {
             Expanded(
               child: ListView.builder(
                 padding: const EdgeInsets.all(16),
-                itemCount: users.length, // Adicionando o itemCount correto
+                itemCount: users.length,
                 itemBuilder: (context, i) {
                   return Container(
                     height: 130,
@@ -41,28 +51,41 @@ class ShowUsersScreen extends StatelessWidget {
                                 height: 100.0,
                                 decoration: BoxDecoration(
                                   color: Colors.red,
-                                  image: const DecorationImage(
-                                    image: AssetImage('assets/images/man.png'),
+                                  image: DecorationImage(
+                                    image: imagemUsuario(users[i].genero),
                                     fit: BoxFit.cover,
                                   ),
                                   borderRadius: const BorderRadius.all(
                                     Radius.circular(75.0),
                                   ),
                                   boxShadow: const [
-                                    BoxShadow(blurRadius: 7.0, color: Colors.black)
+                                    BoxShadow(
+                                      blurRadius: 7.0,
+                                      color: Colors.black,
+                                    )
                                   ],
                                 ),
                               ),
                             ),
                           ),
-                          Container(
-                            padding: const EdgeInsets.all(30.0),
-                            child: Chip(
-                              label: Text({users[i].name} ,'${users[i].telefone}' ),
-                              elevation: 10,
-                              
+                          Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Nome: ${users[i].name}',
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  Text('E-mail: ${users[i].email}'),
+                                  Text('Telefone: ${users[i].telefone}'),
+                                  Text('Endereço: ${users[i].endereco}'),
+                                  Text('Gênero: ${users[i].genero}'),
+                                ],
+                              ),
                             ),
-                            
                           ),
                         ],
                       ),
@@ -77,9 +100,3 @@ class ShowUsersScreen extends StatelessWidget {
     );
   }
 }
-
-          // Text(users[0].name),
-          // Text(users[0].email),
-          // Text(users[0].telefone.toString()),
-          // Text(users[0].endereco),
-          // Text(users[0].genero),
